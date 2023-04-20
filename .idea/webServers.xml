@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bc7ba5ed-3a1a-48dc-96f1-b6716d9f7e6e" name="UCR">
+        <fileTransfer accessType="SFTP" host="aes.engr.ucr.edu" port="22" sshConfigId="4b23c80a-63e9-423e-8aa7-81e83d4cabb4" sshConfig="UCR-Server">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
