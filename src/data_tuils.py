@@ -19,14 +19,31 @@ def preprocess_translation(dataset, lang_name):
         batched=True,
         remove_columns=dataset.column_names,
         load_from_cache_file=False,
-        desc="Running tokenizer on dataset",
+        desc="Running preprocess on dataset",
     )
     return dataset
 
 
 def preprocess_summarization(dataset):
     def preprocess_function(examples):
-        return examples
+        code = examples['code']
+        doc = examples['docstring']
+        examples['x'] = code
+        examples['y'] = doc
+
+    dataset = dataset.map(
+        preprocess_function,
+        batched=True,
+        remove_columns=dataset.column_names,
+        load_from_cache_file=False,
+        desc="Running tokenizer on dataset",
+    )
+    return dataset
+
+
+def preprocess_text2seq(dataset):
+    def preprocess_function(examples):
+        raise NotImplementedError
 
     dataset = dataset.map(
         preprocess_function,

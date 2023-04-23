@@ -7,7 +7,6 @@ import argparse
 # python label_data_with_gpt.py --api_key "Your openai.api_key" --data_id 0 --prompt_id 0 --llm_id 0
 
 
-
 parser = argparse.ArgumentParser(description='OpenAI API for knowPrompt')
 parser.add_argument('--api_key', type=str, required=True, help='Your openai.api_key')
 parser.add_argument('--data_id', type=int, required=True, help='data_id')
@@ -30,6 +29,7 @@ prompt = ["translate the following c# to java , return it in one line and don no
 llm = ['gpt-3.5-turbo',
        "text-davinci-003",
        "code-davinci-002"]
+
 
 def read_file_lines(file_path):
     with open(file_path, 'r') as file:

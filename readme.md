@@ -1,7 +1,4 @@
 
-
-
-
 # File Structure
     ## label_data_with_gpt.py   
         --data_id  
