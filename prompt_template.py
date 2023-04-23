@@ -5,11 +5,11 @@ class CodeTranslationTemplate:
         instruction = f'Translate the following {src_lang} code to {tgt_lang} code. The {src_lang} code is: ' +  x                  # TODO
         return instruction + x
 
-    def get_instruction_2(self, x):
+    def get_instruction_2(self, x, src_lang, tgt_lang):
         instruction = ''
         return instruction + x
 
-    def get_instruction_3(self, x):
+    def get_instruction_3(self, x, src_lang, tgt_lang):
         instruction = ''
         return instruction + x
 
