@@ -11,15 +11,15 @@ from src.data_tuils import preprocess_summarization
 
 
 DATASET_LIST = [
-    ("code_x_glue_cc_code_to_code_trans", 'java'),    # C2JAVA
-    ("code_x_glue_cc_code_to_code_trans", 'cs'),    # C2JAVA
+    ("CM/codexglue_codetrans", 'java'),    # C2JAVA
+    ("CM/codexglue_codetrans", 'cs'),    # C2JAVA
 
 
-    ("code_x_glue_ct_code_to_text", 'go'),
-    ("code_x_glue_ct_code_to_text", 'java'),
-    ("code_x_glue_ct_code_to_text", 'python'),
+    ("CM/codexglue_code2text_go", 'go'),
+    ("CM/codexglue_code2text_java", 'java'),
+    ("CM/codexglue_code2text_python", 'python'),
 
-    #TODO
+
 ]
 
 
@@ -37,12 +37,12 @@ SMALL_DNN_LIST = [
 
 def common_load_dataset(dataset_id):
     dataset_url, lang_name = DATASET_LIST[dataset_id]
-    if dataset_url == 'code_x_glue_cc_code_to_code_trans':
+    if dataset_url.startswith('CM/codexglue_codetrans'):
         train_dataset = load_dataset(dataset_url, split='train')
         test_dataset = load_dataset(dataset_url, split='test')
         train_dataset = preprocess_translation(train_dataset, lang_name)
         test_dataset = preprocess_translation(test_dataset, lang_name)
-    elif dataset_url == "code_x_glue_ct_code_to_text":
+    elif dataset_url.startswith('CM/codexglue_code2text'):
         train_dataset = load_dataset(dataset_url, lang_name, split='train')
         test_dataset = load_dataset(dataset_url, lang_name, split='test')
         train_dataset = preprocess_summarization(train_dataset)
