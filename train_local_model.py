@@ -16,7 +16,9 @@ from transformers import Seq2SeqTrainer
 from src.metrics.bleu import compute_blue_scores
 
 dataset_id = 0
-train_data_num = 3000
+small_model_id = XXX
+
+train_data_num = 10000
 
 train_config = {
     'epoch': 100,
@@ -26,7 +28,7 @@ train_config = {
 
 train_data, test_data = common_load_dataset(dataset_id)
 train_data, _ = common_split_dataset(train_data, train_data_num)
-
+save_dir = XX
 
 for small_model_id in range(5):
     model, tokenizer = common_load_dnn(small_model_id)
@@ -39,14 +41,14 @@ for small_model_id in range(5):
         evaluation_strategy="steps",
         per_device_train_batch_size=32,
         per_device_eval_batch_size=64,
-        num_train_epochs=3,
+        num_train_epochs=train_config['epoch'],
         save_total_limit=1,
         save_steps=1000,
         logging_steps=1000,
         learning_rate=3e-5,
         warmup_steps=500,
         remove_unused_columns=False,
-        output_dir="./output",
+        output_dir=save_dir,
     )
 
 
@@ -80,9 +82,9 @@ for small_model_id in range(5):
 
     ground_truth = common_decoding(res.label_ids, tokenizer)
     predictions = common_decoding(res.predictions, tokenizer)
-    if not os.path.isdir('./tmp'):
-        os.mkdir('./tmp')
-    s = compute_blue_scores(ground_truth, predictions, './tmp')
+    if not os.path.isdir(save_dir):
+        os.mkdir(save_dir)
+    s = compute_blue_scores(ground_truth, predictions, save_dir)
     print(small_model_id, s)
 
 

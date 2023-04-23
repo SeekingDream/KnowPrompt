@@ -1,8 +1,8 @@
 
 
 class CodeTranslationTemplate:
-    def get_instruction_1(self, x):
-        instruction = ''                   # TODO
+    def get_instruction_1(self, x, src_lang, tgt_lang):
+        instruction = f'Translate the following {src_lang} code to {tgt_lang} code. The {src_lang} code is: ' +  x                  # TODO
         return instruction + x
 
     def get_instruction_2(self, x):

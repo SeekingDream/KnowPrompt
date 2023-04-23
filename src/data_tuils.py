@@ -30,6 +30,7 @@ def preprocess_summarization(dataset):
         doc = examples['docstring']
         examples['x'] = code
         examples['y'] = doc
+        return examples
 
     dataset = dataset.map(
         preprocess_function,
