@@ -11,13 +11,13 @@ from src.data_tuils import preprocess_summarization
 
 
 DATASET_LIST = [
-    ("CM/codexglue_codetrans", 'java'),    # C2JAVA
-    ("CM/codexglue_codetrans", 'cs'),    # C2JAVA
+    ("CM/codexglue_codetrans", 'java', 'cs'),    # C2JAVA
+    ("CM/codexglue_codetrans", 'cs', 'java'),    # C2JAVA
 
 
-    ("CM/codexglue_code2text_go", 'go'),
-    ("CM/codexglue_code2text_java", 'java'),
-    ("CM/codexglue_code2text_python", 'python'),
+    ("CM/codexglue_code2text_go", 'go', 'nl'),
+    ("CM/codexglue_code2text_java", 'java', 'nl'),
+    ("CM/codexglue_code2text_python", 'python', 'nl'),
 
 
 ]
@@ -29,8 +29,6 @@ SMALL_DNN_LIST = [
     "el-profesor/bert_small_seq2seq",
     'sumedh/lstm-seq2seq',
     't5-small',
-
-
     #TODO
 ]
 
@@ -118,4 +116,9 @@ def common_compute_model_size(model):
 
 
 if __name__ == '__main__':
-    common_load_dataset(2)
+    train_dataset, _ = common_load_dataset(2)
+    llm_id
+    instruction_id
+    10000
+    for data in train_dataset:
+        print(data['x'], )

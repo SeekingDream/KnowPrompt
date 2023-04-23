@@ -36,6 +36,14 @@ def read_file_lines(file_path):
         lines = file.readlines()
     return [line.strip() for line in lines]
 
+gpt_res = []
+
+{
+    'x': x,
+    'y': y,
+    'gpt_pred': pred,
+}
+
 lines = read_file_lines(data[data_id])
 
 if(llm_id == 0):
