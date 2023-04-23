@@ -24,9 +24,9 @@ DATASET_LIST = [
 
 
 SMALL_DNN_LIST = [
-    'Salesforce/codet5-small',
-    "kleinay/qanom-seq2seq-model-baseline",
-    "el-profesor/bert_small_seq2seq",
+    'Salesforce/codet5-small',                 # XXXX
+    "kleinay/qanom-seq2seq-model-baseline",    # XXXX
+    "el-profesor/bert_small_seq2seq",          # XXXX
     'sumedh/lstm-seq2seq',
     't5-small',
     #TODO
@@ -34,15 +34,15 @@ SMALL_DNN_LIST = [
 
 
 def common_load_dataset(dataset_id):
-    dataset_url, lang_name = DATASET_LIST[dataset_id]
+    dataset_url, src_lang_name, tgt_lang_name = DATASET_LIST[dataset_id]
     if dataset_url.startswith('CM/codexglue_codetrans'):
         train_dataset = load_dataset(dataset_url, split='train')
         test_dataset = load_dataset(dataset_url, split='test')
-        train_dataset = preprocess_translation(train_dataset, lang_name)
-        test_dataset = preprocess_translation(test_dataset, lang_name)
+        train_dataset = preprocess_translation(train_dataset, src_lang_name)
+        test_dataset = preprocess_translation(test_dataset, src_lang_name)
     elif dataset_url.startswith('CM/codexglue_code2text'):
-        train_dataset = load_dataset(dataset_url, lang_name, split='train')
-        test_dataset = load_dataset(dataset_url, lang_name, split='test')
+        train_dataset = load_dataset(dataset_url, src_lang_name, split='train')
+        test_dataset = load_dataset(dataset_url, src_lang_name, split='test')
         train_dataset = preprocess_summarization(train_dataset)
         test_dataset = preprocess_summarization(test_dataset)
     else:
