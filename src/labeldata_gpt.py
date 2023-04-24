@@ -15,6 +15,12 @@ def getargument():
     args = parser.parse_args()
     return args
 
+def get_instruction(prompt_id):
+    method_name = f'get_instruction_{prompt_id}'
+    method = getattr(template, method_name)
+    result = method('some code', 'source language', 'target language')
+    return result
+
 llm = ['gpt-3.5-turbo',
        "text-davinci-003",
        "XXX"]
