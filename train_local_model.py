@@ -35,6 +35,7 @@ train_config = {
 train_data, test_data = common_load_dataset(dataset_id)
 train_data, _ = common_split_dataset(train_data, train_data_num)
 save_dir = XX
+os.makedirs(save_dir , exist_ok=True)
 
 for small_model_id in range(5):
     model, tokenizer = common_load_dnn(small_model_id)
