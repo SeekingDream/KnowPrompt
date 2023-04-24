@@ -37,63 +37,60 @@ train_data, _ = common_split_dataset(train_data, train_data_num)
 save_dir = XX
 os.makedirs(save_dir , exist_ok=True)
 
-for small_model_id in range(5):
-    model, tokenizer = common_load_dnn(small_model_id)
-    train_data = common_tokenize_dataset(train_data, tokenizer)
-    test_data = common_tokenize_dataset(test_data, tokenizer)
+model, tokenizer = common_load_dnn(small_model_id)
+train_data = common_tokenize_dataset(train_data, tokenizer)
+test_data = common_tokenize_dataset(test_data, tokenizer)
 
-    # Define the training arguments
-    training_args = Seq2SeqTrainingArguments(
-        predict_with_generate=True,
-        evaluation_strategy="steps",
-        per_device_train_batch_size=32,
-        per_device_eval_batch_size=64,
-        num_train_epochs=train_config['epoch'],
-        save_total_limit=1,
-        save_steps=1000,
-        logging_steps=1000,
-        learning_rate=3e-5,
-        warmup_steps=500,
-        remove_unused_columns=False,
-        output_dir=save_dir,
-    )
-
-
-    def my_data_collator(batch):
-        input_ids = []
-        attention_mask = []
-        labels = []
-        for d in batch:
-            input_ids.append(torch.tensor(d['input_ids']))
-            attention_mask.append(torch.tensor(d['attention_mask']))
-            labels.append(torch.tensor(d['labels']))
-
-        return {
-            "input_ids": torch.stack(input_ids),
-            "attention_mask": torch.stack(attention_mask),
-            "labels": torch.stack(labels),
-        }
-
-    # Define the trainer and train the model
-    trainer = Seq2SeqTrainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_data,
-        eval_dataset=test_data,
-        data_collator=my_data_collator,
-        tokenizer=tokenizer,
-    )
-    trainer.train()
-    with torch.no_grad():
-        res = trainer.predict(test_data)
-
-    ground_truth = common_decoding(res.label_ids, tokenizer)
-    predictions = common_decoding(res.predictions, tokenizer)
-    if not os.path.isdir(save_dir):
-        os.mkdir(save_dir)
-    s = compute_blue_scores(ground_truth, predictions, save_dir)
-    print(small_model_id, s)
+# Define the training arguments
+training_args = Seq2SeqTrainingArguments(
+    predict_with_generate=True,
+    evaluation_strategy="steps",
+    per_device_train_batch_size=32,
+    per_device_eval_batch_size=64,
+    num_train_epochs=train_config['epoch'],
+    save_total_limit=1,
+    save_steps=1000,
+    logging_steps=1000,
+    learning_rate=3e-5,
+    warmup_steps=500,
+    remove_unused_columns=False,
+    output_dir=save_dir,
+)
 
 
+def my_data_collator(batch):
+    input_ids = []
+    attention_mask = []
+    labels = []
+    for d in batch:
+        input_ids.append(torch.tensor(d['input_ids']))
+        attention_mask.append(torch.tensor(d['attention_mask']))
+        labels.append(torch.tensor(d['labels']))
+
+    return {
+        "input_ids": torch.stack(input_ids),
+        "attention_mask": torch.stack(attention_mask),
+        "labels": torch.stack(labels),
+    }
+
+# Define the trainer and train the model
+trainer = Seq2SeqTrainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_data,
+    eval_dataset=test_data,
+    data_collator=my_data_collator,
+    tokenizer=tokenizer,
+)
+trainer.train()
+with torch.no_grad():
+    res = trainer.predict(test_data)
+
+ground_truth = common_decoding(res.label_ids, tokenizer)
+predictions = common_decoding(res.predictions, tokenizer)
+if not os.path.isdir(save_dir):
+    os.mkdir(save_dir)
+s = compute_blue_scores(ground_truth, predictions, save_dir)
+print(small_model_id, s)
 
 
