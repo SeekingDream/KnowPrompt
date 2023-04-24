@@ -1,3 +1,4 @@
+import argparse
 import os
 os.environ['CUDA_VISIBLE_DEVICES']='6'
 
@@ -15,8 +16,13 @@ from transformers import Seq2SeqTrainer
 
 from src.metrics.bleu import compute_blue_scores
 
-dataset_id = 0
-small_model_id = XXX
+parser = argparse.ArgumentParser(description='Train local model')
+parser.add_argument('--small_dnn_id', type=0, required=True, help='small_dnn_id')
+parser.add_argument('--labeled_data_id', type=0, required=True, help='labeled_data_id')
+args = parser.parse_args()
+
+dataset_id = args.labeled_data_id
+small_model_id = args.small_dnn_id
 
 train_data_num = 10000
 
@@ -86,5 +92,7 @@ for small_model_id in range(5):
         os.mkdir(save_dir)
     s = compute_blue_scores(ground_truth, predictions, save_dir)
     print(small_model_id, s)
+
+
 
 
