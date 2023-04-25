@@ -17,12 +17,15 @@ from transformers import Seq2SeqTrainer
 from src.metrics.bleu import compute_blue_scores
 
 parser = argparse.ArgumentParser(description='Train local model')
-parser.add_argument('--small_dnn_id', type=0, required=True, help='small_dnn_id')
-parser.add_argument('--labeled_data_id', type=0, required=True, help='labeled_data_id')
+parser.add_argument('--save_dir', type=str, required=True, help='save_dir')
+parser.add_argument('--small_dnn_id', type=int, required=True, help='small_dnn_id')
+parser.add_argument('--labeled_data_id', type=int, required=True, help='labeled_data_id')
 args = parser.parse_args()
 
 dataset_id = args.labeled_data_id
 small_model_id = args.small_dnn_id
+save_dir = args.save_dir
+os.makedirs(save_dir , exist_ok=True)
 
 train_data_num = 10000
 
@@ -34,8 +37,7 @@ train_config = {
 
 train_data, test_data = common_load_dataset(dataset_id)
 train_data, _ = common_split_dataset(train_data, train_data_num)
-save_dir = XX
-os.makedirs(save_dir , exist_ok=True)
+
 
 model, tokenizer = common_load_dnn(small_model_id)
 train_data = common_tokenize_dataset(train_data, tokenizer)
