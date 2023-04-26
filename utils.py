@@ -116,7 +116,7 @@ def common_load_dnn(model_id):
     model_name = SMALL_DNN_LIST[model_id]
     config = AutoConfig.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_config(config)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained('Salesforce/codet5-base')
 
     return model, tokenizer
 
@@ -133,10 +133,3 @@ def common_compute_model_size(model):
     return sum_p
 
 
-if __name__ == '__main__':
-    train_dataset, _ = common_load_dataset(2)
-    llm_id
-    instruction_id
-    10000
-    for data in train_dataset:
-        print(data['x'], )
