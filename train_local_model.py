@@ -1,3 +1,4 @@
+import argparse
 import os
 os.environ['CUDA_VISIBLE_DEVICES']='6,7'
 import torch
@@ -16,6 +17,7 @@ from transformers import Seq2SeqTrainer
 from transformers import EvalPrediction
 
 from src.metrics.bleu import compute_blue_scores
+
 
 
 def my_data_collator(batch):
@@ -92,6 +94,7 @@ def main(args):
     predictions = common_decoding(res.predictions, tokenizer)
     s = compute_blue_scores(ground_truth, predictions, save_dir)
     print(small_model_id, s)
+
 
 
 if __name__ == '__main__':
