@@ -34,6 +34,7 @@ SMALL_DNN_LIST = [
     "kleinay/qanom-seq2seq-model-baseline",    # XXXX
     "el-profesor/bert_small_seq2seq",          # XXXX
     'sumedh/lstm-seq2seq',
+    'Salesforce/codet5-base',                 # XXXX
     #TODO
 ]
 
