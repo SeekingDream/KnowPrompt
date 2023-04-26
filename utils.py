@@ -32,10 +32,8 @@ if not os.path.isdir(LOCAL_MODEL_DIR):
 SMALL_DNN_LIST = [
     'Salesforce/codet5-small',                 # XXXX
     "el-profesor/bert_small_seq2seq",          # XXXX
-    'sumedh/lstm-seq2seq',
-    'Salesforce/codet5-base',                 # XXXX
-
-    # "kleinay/qanom-seq2seq-model-baseline",    # XXXX
+    "facebook/m2m100_418M",
+    'Salesforce/codet5-base',                  # XXXX
     #TODO
 ]
 
@@ -116,8 +114,10 @@ def common_load_dnn(model_id):
     model_name = SMALL_DNN_LIST[model_id]
     config = AutoConfig.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_config(config)
-    tokenizer = AutoTokenizer.from_pretrained('Salesforce/codet5-base')
-
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(model_name)   # 'Salesforce/codet5-base'
+    except:
+        tokenizer = AutoTokenizer.from_pretrained('Salesforce/codet5-base')  #
     return model, tokenizer
 
 
@@ -131,5 +131,11 @@ def common_compute_model_size(model):
     for p in model.parameters():
         sum_p += p.numel()
     return sum_p
+
+
+if __name__ == '__main__':
+    for model_id in range(4):
+        model, tokenizer = common_load_dnn(model_id)
+        print(model_id, 'successful', common_compute_model_size(model))
 
 
