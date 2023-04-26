@@ -31,10 +31,11 @@ if not os.path.isdir(LOCAL_MODEL_DIR):
 
 SMALL_DNN_LIST = [
     'Salesforce/codet5-small',                 # XXXX
-    "kleinay/qanom-seq2seq-model-baseline",    # XXXX
     "el-profesor/bert_small_seq2seq",          # XXXX
     'sumedh/lstm-seq2seq',
     'Salesforce/codet5-base',                 # XXXX
+
+    # "kleinay/qanom-seq2seq-model-baseline",    # XXXX
     #TODO
 ]
 
