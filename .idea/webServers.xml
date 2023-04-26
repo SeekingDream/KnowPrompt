@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="8316afbe-b1fd-4b03-9779-7ee692092bd4" name="UTD">
+        <fileTransfer accessType="SFTP" host="bernstein.utdallas.edu" port="22" sshConfigId="679077ee-e58f-4185-8530-94b9abc19db6" sshConfig="UTD">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

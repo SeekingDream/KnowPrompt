@@ -1,3 +1,4 @@
+import os.path
 import random
 import numpy as np
 
@@ -22,32 +23,45 @@ DATASET_LIST = [
 
 ]
 
+LOCAL_MODEL_DIR = 'model_weights'
+
+if not os.path.isdir(LOCAL_MODEL_DIR):
+    os.mkdir(LOCAL_MODEL_DIR)
+
 
 SMALL_DNN_LIST = [
     'Salesforce/codet5-small',                 # XXXX
     "kleinay/qanom-seq2seq-model-baseline",    # XXXX
     "el-profesor/bert_small_seq2seq",          # XXXX
     'sumedh/lstm-seq2seq',
-    't5-small',
     #TODO
 ]
 
 
-def common_load_dataset(dataset_id):
+def common_load_groundtruth_dataset(dataset_id):
     dataset_url, src_lang_name, tgt_lang_name = DATASET_LIST[dataset_id]
     if dataset_url.startswith('CM/codexglue_codetrans'):
-        train_dataset = load_dataset(dataset_url, split='train')
-        test_dataset = load_dataset(dataset_url, split='test')
+        train_dataset = load_dataset(dataset_url, split='train', cache_dir='./Dataset')
+        test_dataset = load_dataset(dataset_url, split='test', cache_dir='./Dataset')
         train_dataset = preprocess_translation(train_dataset, src_lang_name)
         test_dataset = preprocess_translation(test_dataset, src_lang_name)
     elif dataset_url.startswith('CM/codexglue_code2text'):
-        train_dataset = load_dataset(dataset_url, src_lang_name, split='train')
-        test_dataset = load_dataset(dataset_url, src_lang_name, split='test')
+        train_dataset = load_dataset(dataset_url, src_lang_name, split='train', cache_dir='./Dataset')
+        test_dataset = load_dataset(dataset_url, src_lang_name, split='test', cache_dir='./Dataset')
         train_dataset = preprocess_summarization(train_dataset)
         test_dataset = preprocess_summarization(test_dataset)
     else:
         raise NotImplementedError
     return train_dataset, test_dataset
+
+
+def common_load_dataset(dataset_id, label_id):
+    if label_id == 0:
+        return common_load_groundtruth_dataset(dataset_id)
+    elif label_id == 1:
+        raise NotImplementedError
+    else:
+        raise NotImplementedError
 
 
 def common_tokenize_dataset(dataset, tokenizer, max_length=256):
@@ -86,6 +100,8 @@ def common_tokenize_dataset(dataset, tokenizer, max_length=256):
 
 
 def common_split_dataset(dataset, data_num):
+    if data_num is None:
+        return dataset, None
     all_indices = list(range(len(dataset)))
     np.random.shuffle(all_indices)
     select_index = all_indices[:data_num]
