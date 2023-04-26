@@ -6,6 +6,7 @@ from datasets import load_dataset
 from transformers import AutoTokenizer
 from transformers import AutoConfig
 from transformers import AutoModelForSeq2SeqLM
+from transformers import AutoModelForCausalLM
 
 from src.data_tuils import preprocess_translation
 from src.data_tuils import preprocess_summarization
@@ -30,10 +31,12 @@ if not os.path.isdir(LOCAL_MODEL_DIR):
 
 
 SMALL_DNN_LIST = [
-    'Salesforce/codet5-small',                 # XXXX
-    "el-profesor/bert_small_seq2seq",          # XXXX
-    "facebook/m2m100_418M",
-    'Salesforce/codet5-base',                  # XXXX
+    ('Salesforce/codet5-small', AutoModelForSeq2SeqLM),          # XXXX
+    ('Salesforce/codet5-base', AutoModelForSeq2SeqLM),          # XXXX
+    ("biu-nlp/qanom-seq2seq-model-joint", AutoModelForSeq2SeqLM),
+
+    ('EleutherAI/gpt-neo-125m', AutoModelForCausalLM),   # XXXX
+
     #TODO
 ]
 
@@ -111,13 +114,16 @@ def common_split_dataset(dataset, data_num):
 
 
 def common_load_dnn(model_id):
-    model_name = SMALL_DNN_LIST[model_id]
+    model_name, model_class = SMALL_DNN_LIST[model_id]
     config = AutoConfig.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_config(config)
-    try:
-        tokenizer = AutoTokenizer.from_pretrained(model_name)   # 'Salesforce/codet5-base'
-    except:
-        tokenizer = AutoTokenizer.from_pretrained('Salesforce/codet5-base')  #
+    model = model_class.from_config(config)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    # try:
+    #     tokenizer = AutoTokenizer.from_pretrained(model_name)   # 'Salesforce/codet5-base'
+    # except:
+    #     tokenizer = AutoTokenizer.from_pretrained('Salesforce/codet5-base')  #
     return model, tokenizer
 
 
@@ -130,7 +136,7 @@ def common_compute_model_size(model):
     sum_p = 0
     for p in model.parameters():
         sum_p += p.numel()
-    return sum_p
+    return sum_p / 10 ** 6
 
 
 if __name__ == '__main__':
