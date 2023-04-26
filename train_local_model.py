@@ -1,6 +1,5 @@
 import argparse
 import os
-os.environ['CUDA_VISIBLE_DEVICES']='6,7'
 import torch
 import argparse
 from torch.utils.data import DataLoader
@@ -44,7 +43,8 @@ def main(args):
 
     train_data, test_data = common_load_dataset(dataset_id, labeling_id)
     train_data, _ = common_split_dataset(train_data, train_data_num)
-    save_dir = os.path.join(LOCAL_MODEL_DIR, f"{dataset_id}_{small_model_id}_{labeling_id}_{train_data_num}")
+    task_name = f"{dataset_id}_{small_model_id}_{labeling_id}_{train_data_num}"
+    save_dir = os.path.join(LOCAL_MODEL_DIR, task_name)
 
     model, tokenizer = common_load_dnn(small_model_id)
     train_data = common_tokenize_dataset(train_data, tokenizer)
