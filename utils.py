@@ -42,7 +42,8 @@ if not os.path.isdir(LOCAL_MODEL_DIR):
     os.mkdir(LOCAL_MODEL_DIR)
 if not os.path.isdir(MODEL_CONFIG_DIR):
     os.mkdir(MODEL_CONFIG_DIR)
-
+if not os.path.isdir(LABEL_DATA_DIR):
+    os.mkdir(LABEL_DATA_DIR)
 
 
 
