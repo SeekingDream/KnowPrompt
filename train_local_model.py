@@ -43,6 +43,8 @@ def main(args):
 
     train_data, test_data = common_load_dataset(dataset_id, labeling_id)
     train_data, _ = common_split_dataset(train_data, train_data_num)
+    test_data, _ = common_split_dataset(train_data, 1000)
+
     task_name = f"{dataset_id}_{small_model_id}_{labeling_id}_{train_data_num}"
     save_dir = os.path.join(LOCAL_MODEL_DIR, task_name)
 
