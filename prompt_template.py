@@ -59,6 +59,11 @@ class NL2SQLTemplate:
 
 ManuPrmoptClassList = [
     CodeTranslationTemplate,
+    CodeTranslationTemplate,
+
     CodeSummarizationTemplate,
+    CodeSummarizationTemplate,
+    CodeSummarizationTemplate,
+
     NL2SQLTemplate,
 ]

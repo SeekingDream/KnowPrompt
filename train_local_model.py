@@ -58,10 +58,10 @@ def main(args):
 
     # Define the training arguments
     training_args = Seq2SeqTrainingArguments(
-        max_steps=30000,
+        max_steps=50000,
         save_total_limit=10,
-        save_steps=5000,
-        logging_steps=5000,
+        save_steps=10000,
+        logging_steps=10000,
         predict_with_generate=True,
         evaluation_strategy="steps",
         per_device_train_batch_size=6,  # 6
