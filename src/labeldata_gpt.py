@@ -59,7 +59,7 @@ def ask_gpt35_turbo(src_lang,tgt_lang):
     return res
 
 
-def ask_text_davinci_003(src_lang,tgt_lang):
+def ask_text_davinci_003(src_lang, tgt_lang):
     for i in range(len(train_data['x'])):
         x = train_data['x'][i]
         y = train_data['y'][i]
