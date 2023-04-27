@@ -2,6 +2,7 @@ import os
 import argparse
 import openai
 from datasets import Dataset
+from torch.utils.data import DataLoader
 
 from tqdm import tqdm
 from utils import common_load_dataset, common_split_dataset
@@ -18,23 +19,33 @@ if os.getenv('OPENAI_API_KEY') is None:
 
 def labeling_dataset(llm_id, prompt_func, train_data, src_lang, tgt_lang, temperature):
     labeled_data_all,  labeled_data_part = [], []
-    for data in tqdm(train_data):
-        prompted_x = prompt_func(data['x'], src_lang, tgt_lang)
+    data_loader = DataLoader(train_data, batch_size=1, shuffle=False)
 
-        query_res = query_gpt(llm_id, prompted_x, temperature)
+    for data in tqdm(data_loader):
+        x_list, y_list = data['x'], data['y']
 
-        new_res = {
-            'x': data['x'],
-            'y': query_res,
-            'prompted_x': prompted_x,
-            'ground_truth': data['y']
-        }
-        part_res = {
-            'x': data['x'],
-            'y': query_res,
-        }
-        labeled_data_all.append(new_res)
-        labeled_data_part.append(part_res)
+        prompted_x_list = [prompt_func(x, src_lang, tgt_lang) for x in x_list]
+
+        query_res = query_gpt(llm_id, prompted_x_list, temperature)
+
+        new_res = [
+            {
+                'x': x_list[i],
+                'y': query_res[i],
+                'prompted_x': prompted_x_list[i],
+                'ground_truth': y_list[i]
+            }
+            for i in range(len(x_list))
+        ]
+        part_res = [
+            {
+                'x': x_list[i],
+                'y': query_res[i],
+            }
+            for i in range(len(x_list))
+        ]
+        labeled_data_all.extend(new_res)
+        labeled_data_part.extend(part_res)
 
     my_labeled_data_all = Dataset.from_list(labeled_data_all)
     my_labeled_data_part = Dataset.from_list(labeled_data_part)
@@ -69,7 +80,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset_id', type=int, default=0,  help='dataset id')
     parser.add_argument('--llm_id', type=int, default=0,  help='small DNN id')
     parser.add_argument('--labeling_num', type=int, default=100, help='number of training data')
-    parser.add_argument('--prompt_id', type=int, default=0, help='number of training data')
+    parser.add_argument('--prompt_id', type=int, default=1, help='number of training data')
 
     args = parser.parse_args()
 
