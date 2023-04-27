@@ -13,32 +13,37 @@ from src.data_tuils import preprocess_summarization
 
 
 DATASET_LIST = [
-    ("CM/codexglue_codetrans", 'java', 'cs'),    # C2JAVA
-    ("CM/codexglue_codetrans", 'cs', 'java'),    # C2JAVA
+    ("CM/codexglue_codetrans", 'java', 'c#'),    # C2JAVA
+    ("CM/codexglue_codetrans", 'c#', 'java'),    # C2JAVA
 
 
     ("CM/codexglue_code2text_go", 'go', 'nl'),
     ("CM/codexglue_code2text_java", 'java', 'nl'),
     ("CM/codexglue_code2text_python", 'python', 'nl'),
-
-
 ]
 
+SMALL_DNN_LIST = [
+    ('Salesforce_codet5-small', 'Salesforce/codet5-small', AutoModelForSeq2SeqLM),          # XXXX
+    ('Salesforce_codet5-base', 'Salesforce/codet5-base', AutoModelForSeq2SeqLM),          # XXXX
+
+    ("mrm8488_bert2bert-6", "mrm8488/bert2bert_shared-spanish-finetuned-summarization", AutoModelForSeq2SeqLM),
+    ("mrm8488_bert2bert-12", "mrm8488/bert2bert_shared-spanish-finetuned-summarization", AutoModelForSeq2SeqLM),
+    # ("google_bert2bert_L-6", "google/bert2bert_L-24_wmt_de_en", AutoModelForSeq2SeqLM),
+    # ("google_bert2bert_L-12", "google/bert2bert_L-24_wmt_de_en", AutoModelForSeq2SeqLM)
+    #TODO
+]
+
+
 LOCAL_MODEL_DIR = 'model_weights'
+MODEL_CONFIG_DIR = 'model_config'
+LABEL_DATA_DIR = 'labeled_data'
 
 if not os.path.isdir(LOCAL_MODEL_DIR):
     os.mkdir(LOCAL_MODEL_DIR)
+if not os.path.isdir(MODEL_CONFIG_DIR):
+    os.mkdir(MODEL_CONFIG_DIR)
 
 
-SMALL_DNN_LIST = [
-    ('Salesforce/codet5-small', AutoModelForSeq2SeqLM),          # XXXX
-    ('Salesforce/codet5-base', AutoModelForSeq2SeqLM),          # XXXX
-    ("biu-nlp/qanom-seq2seq-model-joint", AutoModelForSeq2SeqLM),
-
-    ('EleutherAI/gpt-neo-125m', AutoModelForCausalLM),   # XXXX
-
-    #TODO
-]
 
 
 def common_load_groundtruth_dataset(dataset_id):
@@ -103,6 +108,7 @@ def common_tokenize_dataset(dataset, tokenizer, max_length=256):
 
 
 def common_split_dataset(dataset, data_num):
+    np.random.seed(1997)
     if data_num is None:
         return dataset, None
     all_indices = list(range(len(dataset)))
@@ -114,16 +120,15 @@ def common_split_dataset(dataset, data_num):
 
 
 def common_load_dnn(model_id):
-    model_name, model_class = SMALL_DNN_LIST[model_id]
-    config = AutoConfig.from_pretrained(model_name)
+    local_model_name, tokenizer_name, model_class = SMALL_DNN_LIST[model_id]
+    config_path = os.path.join(MODEL_CONFIG_DIR, local_model_name)
+
+    config = AutoConfig.from_pretrained(config_path)
     model = model_class.from_config(config)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)   # 'Salesforce/codet5-base'
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    # try:
-    #     tokenizer = AutoTokenizer.from_pretrained(model_name)   # 'Salesforce/codet5-base'
-    # except:
-    #     tokenizer = AutoTokenizer.from_pretrained('Salesforce/codet5-base')  #
     return model, tokenizer
 
 

@@ -60,11 +60,11 @@ def main(args):
     training_args = Seq2SeqTrainingArguments(
         max_steps=50000,
         save_total_limit=10,
-        save_steps=1000,
-        logging_steps=1000,
+        save_steps=5000,
+        logging_steps=5000,
         predict_with_generate=True,
         evaluation_strategy="steps",
-        per_device_train_batch_size=6,
+        per_device_train_batch_size=6,  # 6
         per_device_eval_batch_size=6,
         generation_max_length=256,
         generation_num_beams=5,
@@ -94,7 +94,6 @@ def main(args):
     predictions = common_decoding(res.predictions, tokenizer)
     s = compute_blue_scores(ground_truth, predictions, save_dir)
     print(small_model_id, s)
-
 
 
 if __name__ == '__main__':

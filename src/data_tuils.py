@@ -4,7 +4,7 @@ def preprocess_translation(dataset, lang_name):
     def preprocess_function(examples):
         if lang_name == 'java':
             src_lang, tgt_lang = 'java', 'cs'
-        elif lang_name == 'cs':
+        elif lang_name == 'c#':
             src_lang, tgt_lang = 'cs', 'java'
         else:
             raise NotImplementedError

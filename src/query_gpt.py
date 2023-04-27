@@ -20,4 +20,20 @@ def ask_gpt35_turbo(question, temperature=0):
 
 
 def ask_text_advinci_003(question, temperature=0):
-    pass
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=question,
+        max_tokens=1024,
+        temperature=temperature
+    )
+    pred = response["choices"][0]["text"]
+    return pred
+
+
+def query_gpt(llm_id, question, temperature):
+    if llm_id == 0:
+        return ask_gpt35_turbo(question, temperature)
+    elif llm_id == 1:
+        return ask_text_advinci_003(question, temperature)
+    else:
+        raise NotImplementedError
