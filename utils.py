@@ -158,8 +158,9 @@ def common_compute_model_size(model):
 
 
 if __name__ == '__main__':
-    for model_id in range(4):
-        model, tokenizer = common_load_dnn(model_id)
-        print(model_id, 'successful', common_compute_model_size(model))
+    # for model_id in range(4):
+    #     model, tokenizer = common_load_dnn(model_id)
+    #     print(model_id, 'successful', common_compute_model_size(model))
 
+    common_load_groundtruth_dataset(3)
 
