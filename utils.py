@@ -1,6 +1,7 @@
 import os.path
 import random
 import numpy as np
+import torch
 
 from datasets import load_dataset
 from datasets import Dataset
