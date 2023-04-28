@@ -40,7 +40,9 @@ def main(args):
     train_data_num = args.training_num
     small_model_id = args.small_model_id
     labeling_id = args.labeling_id
+
     max_step = args.max_step
+
 
     train_data, _ = common_load_dataset(dataset_id, labeling_id)
     test_data, _ = common_load_dataset(dataset_id, 0)

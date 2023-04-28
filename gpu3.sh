@@ -1,6 +1,7 @@
 export CUDA_VISIBLE_DEVICES=4,5
 
 
+
 SMALL_DNN_ID=2
 TRAINING_NUM=10000
 
@@ -24,6 +25,8 @@ for LABELING_ID in {1..3}; do
     --max_step 30000 \
     | tee log/$DATA_ID"_"$SMALL_DNN_ID"_"$LABELING_ID"_"$TRAINING_NUM.txt
 done
+
+
 
 
 
