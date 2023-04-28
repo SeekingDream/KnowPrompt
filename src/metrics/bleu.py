@@ -158,7 +158,8 @@ def computeMaps(predictions, goldfile):
     for row in gf:
         tmp = row.split('\t')
         if len(tmp) != 2:
-            print(row)
+            # print(row)
+            pass
         # (rid, pred) = tmp
         rid = tmp[0]
         pred = '\t'.join(tmp[1:])

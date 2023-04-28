@@ -41,7 +41,9 @@ def main(args):
     small_model_id = args.small_model_id
     labeling_id = args.labeling_id
 
-    train_data, test_data = common_load_dataset(dataset_id, labeling_id)
+    train_data, _ = common_load_dataset(dataset_id, labeling_id)
+    test_data, _ = common_load_dataset(dataset_id, 0)
+
     train_data, _ = common_split_dataset(train_data, train_data_num)
     test_data, _ = common_split_dataset(test_data, 1000)
 
@@ -102,8 +104,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='OpenAI API for knowPrompt')
     parser.add_argument('--dataset_id', type=int, default=0,  help='dataset id')
     parser.add_argument('--small_model_id', type=int, default=0,  help='small DNN id')
-    parser.add_argument('--labeling_id', type=int, default=0, help='labeling methods')
-    parser.add_argument('--training_num', type=int, default=100, help='number of training data')
+    parser.add_argument('--labeling_id', type=int, default=1, help='labeling methods')
+    parser.add_argument('--training_num', type=int, default=10000, help='number of training data')
 
     args = parser.parse_args()
 
