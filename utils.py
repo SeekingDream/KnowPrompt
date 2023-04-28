@@ -3,6 +3,7 @@ import random
 import numpy as np
 
 from datasets import load_dataset
+from datasets import Dataset
 from transformers import AutoTokenizer
 from transformers import AutoConfig
 from transformers import AutoModelForSeq2SeqLM
@@ -64,11 +65,21 @@ def common_load_groundtruth_dataset(dataset_id):
     return train_dataset, test_dataset
 
 
+def common_manu_prompted_dataset(dataset_id, prompt_id, llm_id):
+    train_data_num = 10000
+    task_name = f"{dataset_id}_{llm_id}_{prompt_id}_{train_data_num}"
+    save_dir = os.path.join(LABEL_DATA_DIR, task_name)
+    dataset = Dataset.load_from_disk(os.path.join(save_dir, 'part_infor.csv'))
+    return dataset, None
+
+
 def common_load_dataset(dataset_id, label_id):
     if label_id == 0:
         return common_load_groundtruth_dataset(dataset_id)
-    elif label_id == 1:
-        raise NotImplementedError
+    elif label_id in [1, 2, 3]:
+        return common_manu_prompted_dataset(dataset_id, label_id, llm_id=0)
+    elif label_id in [4, 5, 6]:
+        return common_manu_prompted_dataset(dataset_id, label_id, llm_id=1)
     else:
         raise NotImplementedError
 

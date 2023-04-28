@@ -50,15 +50,12 @@ def main(args):
 
             ground_truth.extend(common_decoding(batch['labels'].detach().to('cpu'), tokenizer))
             predicts.extend(common_decoding(predict.detach().to('cpu'), tokenizer))
-            # print(ground_truth)
-            # print('=--------------------')
-            # print(predicts)
-            # print('*******************')
-            # s = compute_blue_scores(ground_truth, predicts, save_dir)
-            # print(s)
+
+    save_dir = os.path.join(save_dir, 'test')
+    if not os.path.isdir(save_dir):
+        os.mkdir(save_dir)
     s = compute_blue_scores(ground_truth, predicts, save_dir)
     print(dataset_id, small_model_id, labeling_id, s)
-
 
 
 if __name__ == '__main__':
