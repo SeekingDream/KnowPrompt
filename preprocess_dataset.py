@@ -92,6 +92,6 @@ def preprocess_codex_glue_code_to_text():
 
 if __name__ == '__main__':
 
-    # preprocess_codex_glue_code_to_code_trans()
+    preprocess_codex_glue_code_to_code_trans()
     # preprocess_spider()
-    preprocess_codex_glue_code_to_text()
+    # preprocess_codex_glue_code_to_text()
