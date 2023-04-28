@@ -40,6 +40,7 @@ def main(args):
     train_data_num = args.training_num
     small_model_id = args.small_model_id
     labeling_id = args.labeling_id
+    max_step = args.max_step
 
     train_data, _ = common_load_dataset(dataset_id, labeling_id)
     test_data, _ = common_load_dataset(dataset_id, 0)
@@ -62,7 +63,7 @@ def main(args):
 
     # Define the training arguments
     training_args = Seq2SeqTrainingArguments(
-        max_steps=50000,
+        max_steps=max_step,
         save_total_limit=10,
         save_steps=10000,
         logging_steps=10000,
@@ -106,6 +107,7 @@ if __name__ == '__main__':
     parser.add_argument('--small_model_id', type=int, default=0,  help='small DNN id')
     parser.add_argument('--labeling_id', type=int, default=1, help='labeling methods')
     parser.add_argument('--training_num', type=int, default=10000, help='number of training data')
+    parser.add_argument('--max_step', type=int, default=30000, help='number of training data')
 
     args = parser.parse_args()
 

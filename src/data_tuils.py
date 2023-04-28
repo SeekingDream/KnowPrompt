@@ -26,10 +26,10 @@ def preprocess_translation(dataset, lang_name):
 
 def preprocess_summarization(dataset):
     def preprocess_function(examples):
-        code = ' '.join(examples['code_tokens']).replace('\n',' ')
+        code = ' '.join(examples['code_tokens']).replace('\n', ' ')
         code = ' '.join(code.strip().split())
 
-        doc = ' '.join(examples['docstring_tokens']).replace('\n','')
+        doc = ' '.join(examples['docstring_tokens']).replace('\n', '')
         doc = ' '.join(doc.strip().split())
         examples['x'] = code
         examples['y'] = doc

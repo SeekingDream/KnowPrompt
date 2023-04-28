@@ -47,7 +47,6 @@ if not os.path.isdir(LABEL_DATA_DIR):
     os.mkdir(LABEL_DATA_DIR)
 
 
-
 def common_load_groundtruth_dataset(dataset_id):
     dataset_url, src_lang_name, tgt_lang_name = DATASET_LIST[dataset_id]
     if dataset_url.startswith('CM/codexglue_codetrans'):
