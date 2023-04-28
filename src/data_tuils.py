@@ -32,7 +32,7 @@ def preprocess_summarization(dataset):
 
         doc = ' '.join(examples['docstring_tokens']).replace('\n', '')
         doc = ' '.join(doc.strip().split())
-        
+
         examples['x'] = code
         examples['y'] = doc
         return examples
