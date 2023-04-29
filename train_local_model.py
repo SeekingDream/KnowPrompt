@@ -45,7 +45,7 @@ def main(args):
 
 
     train_data, _ = common_load_dataset(dataset_id, labeling_id)
-    test_data, _ = common_load_dataset(dataset_id, 0)
+    _, test_data = common_load_dataset(dataset_id, 0)
 
     train_data, _ = common_split_dataset(train_data, train_data_num)
     test_data, _ = common_split_dataset(test_data, 1000)
