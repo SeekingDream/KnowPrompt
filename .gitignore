@@ -4,7 +4,7 @@
 
 gpt_manul_label.sh
 
-
+log/
 labeled_data/
 labeled_data.zip
 

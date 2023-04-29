@@ -43,7 +43,6 @@ def main(args):
 
     max_step = args.max_step
 
-
     train_data, _ = common_load_dataset(dataset_id, labeling_id)
     _, test_data = common_load_dataset(dataset_id, 0)
 
